@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulário de Entrevista — Gestão de Estoque</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f0f4f8;
+    color: #2d2d2d;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .form-header {
+    background: linear-gradient(135deg, #1A3A5C 0%, #2563A8 100%);
+    color: white;
+    padding: 36px 0 28px;
+    text-align: center;
+    border-bottom: 5px solid #0F6E56;
+  }
+  .form-header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    margin-bottom: 6px;
+  }
+  .form-header p {
+    font-size: 14px;
+    color: #B5D4F4;
+    margin-bottom: 20px;
+  }
+  .header-pills {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .header-pill {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    color: #E6F1FB;
+  }
+
+  /* CONTAINER */
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 28px 16px 60px;
+  }
+
+  /* IDENTIFICATION CARD */
+  .id-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #d3d1c7;
+    border-top: 5px solid #1A3A5C;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .id-card h2 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1A3A5C;
+    margin-bottom: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+  .field-row.full { grid-template-columns: 1fr; }
+  .field-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #5f5e5a;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .field-group input,
+  .field-group select {
+    width: 100%;
+    border: 1.5px solid #d3d1c7;
+    border-radius: 8px;
+    padding: 9px 12px;
+    font-size: 14px;
+    color: #2d2d2d;
+    background: #fafaf8;
+    transition: border-color 0.2s;
+    font-family: inherit;
+  }
+  .field-group input:focus,
+  .field-group select:focus {
+    outline: none;
+    border-color: #2563A8;
+    background: white;
+  }
+
+  /* BLOCK HEADER */
+  .block-header {
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 24px 0 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .block-header.blue  { background: #EBF2FB; border-left: 4px solid #2563A8; }
+  .block-header.teal  { background: #E1F5EE; border-left: 4px solid #0F6E56; }
+  .block-header.gray  { background: #F5F4F0; border-left: 4px solid #1A3A5C; }
+  .block-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+  .block-header.blue  .block-badge { background: #2563A8; color: white; }
+  .block-header.teal  .block-badge { background: #0F6E56; color: white; }
+  .block-header.gray  .block-badge { background: #1A3A5C; color: white; }
+  .block-info h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+  .block-header.blue  .block-info h3 { color: #1A3A5C; }
+  .block-header.teal  .block-info h3 { color: #085041; }
+  .block-header.gray  .block-info h3 { color: #1A3A5C; }
+  .block-info p {
+    font-size: 12px;
+    color: #6b6b66;
+  }
+
+  /* QUESTION CARD */
+  .q-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #d3d1c7;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s;
+  }
+  .q-card:focus-within {
+    box-shadow: 0 2px 12px rgba(37,99,168,0.12);
+    border-color: #b5d4f4;
+  }
+  .q-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .q-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: #2563A8;
+    background: #EBF2FB;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .q-cat {
+    font-size: 11px;
+    font-weight: 600;
+    color: #0F6E56;
+    background: #E1F5EE;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .q-priority {
+    font-size: 10px;
+    font-weight: 700;
+    color: #854F0B;
+    background: #FAEEDA;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .q-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
+  .q-hint {
+    font-size: 12px;
+    color: #888780;
+    font-style: italic;
+    margin-bottom: 12px;
+    padding: 6px 10px;
+    background: #fafaf8;
+    border-left: 3px solid #d3d1c7;
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* INPUT TYPES */
+  textarea {
+    width: 100%;
+    border: 1.5px solid #d3d1c7;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14px;
+    color: #2d2d2d;
+    background: #fafaf8;
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+    line-height: 1.5;
+    transition: border-color 0.2s;
+  }
+  textarea:focus {
+    outline: none;
+    border-color: #2563A8;
+    background: white;
+  }
+
+  .radio-group, .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .radio-item, .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1.5px solid #d3d1c7;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: #fafaf8;
+  }
+  .radio-item:hover, .checkbox-item:hover {
+    border-color: #2563A8;
+    background: #EBF2FB;
+  }
+  .radio-item input, .checkbox-item input {
+    accent-color: #2563A8;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+  .radio-item label, .checkbox-item label {
+    font-size: 13px;
+    color: #2d2d2d;
+    cursor: pointer;
+    flex: 1;
+  }
+
+  /* MONEY INPUT */
+  .money-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .money-prefix {
+    position: absolute;
+    left: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #5f5e5a;
+    pointer-events: none;
+  }
+  .money-input {
+    width: 100%;
+    border: 1.5px solid #d3d1c7;
+    border-radius: 8px;
+    padding: 10px 12px 10px 36px;
+    font-size: 14px;
+    color: #2d2d2d;
+    background: #fafaf8;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+  .money-input:focus {
+    outline: none;
+    border-color: #2563A8;
+    background: white;
+  }
+
+  /* SCALE */
+  .scale-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .scale-label {
+    font-size: 11px;
+    color: #888780;
+    white-space: nowrap;
+  }
+  .scale-options {
+    display: flex;
+    gap: 6px;
+    flex: 1;
+    justify-content: space-between;
+  }
+  .scale-option {
+    flex: 1;
+    text-align: center;
+  }
+  .scale-option input[type="radio"] {
+    display: none;
+  }
+  .scale-option label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 8px 4px;
+    border: 1.5px solid #d3d1c7;
+    border-radius: 8px;
+    background: #fafaf8;
+    transition: all 0.15s;
+    font-size: 13px;
+    font-weight: 600;
+    color: #5f5e5a;
+    min-width: 36px;
+  }
+  .scale-option input:checked + label {
+    background: #EBF2FB;
+    border-color: #2563A8;
+    color: #1A3A5C;
+  }
+  .scale-option label:hover {
+    border-color: #2563A8;
+    background: #EBF2FB;
+  }
+
+  /* OTHER INPUT (texto adicional) */
+  .other-input {
+    margin-top: 8px;
+    width: 100%;
+    border: 1.5px dashed #d3d1c7;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: #2d2d2d;
+    background: #fafaf8;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+  .other-input:focus {
+    outline: none;
+    border-color: #2563A8;
+    border-style: solid;
+    background: white;
+  }
+
+  /* SUBMIT */
+  .submit-area {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #d3d1c7;
+    padding: 24px 28px;
+    margin-top: 24px;
+    text-align: center;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .submit-btn {
+    background: #1A3A5C;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 13px 40px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    font-family: inherit;
+  }
+  .submit-btn:hover { background: #2563A8; }
+  .submit-btn:active { transform: scale(0.98); }
+  .submit-note {
+    font-size: 12px;
+    color: #888780;
+    margin-top: 10px;
+  }
+
+  /* PRINT */
+  @media print {
+    body { background: white; font-size: 13px; }
+    .form-header { background: #1A3A5C !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .q-card { break-inside: avoid; box-shadow: none; }
+    .submit-area { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .field-row { grid-template-columns: 1fr; }
+    .scale-options { gap: 3px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="form-header">
+  <h1>Entrevista — Gestão de Estoque</h1>
+  <p>TCC Sistemas de Informação · Modelo Preditivo para Mercadinhos de Bairro</p>
+  <div class="header-pills">
+    <span class="header-pill">13 perguntas</span>
+    <span class="header-pill">Blocos A · B · C</span>
+    <span class="header-pill">30–40 minutos</span>
+    <span class="header-pill">Preencher durante a entrevista</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- IDENTIFICAÇÃO -->
+  <div class="id-card">
+    <h2>Identificação do Estabelecimento</h2>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Nome do estabelecimento</label>
+        <input type="text" placeholder="Ex: Mercadinho do João">
+      </div>
+      <div class="field-group">
+        <label>Bairro / Cidade</label>
+        <input type="text" placeholder="Ex: Vila Mariana, São Paulo">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Entrevistador</label>
+        <input type="text" placeholder="Nome do aluno">
+      </div>
+      <div class="field-group">
+        <label>Data da entrevista</label>
+        <input type="date">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Porte estimado</label>
+        <select>
+          <option value="">Selecione...</option>
+          <option>Pequeno (1–2 funcionários)</option>
+          <option>Médio (3–5 funcionários)</option>
+          <option>Grande (6+ funcionários)</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Tempo de operacao (anos)</label>
+        <input type="number" placeholder="Ex: 8" min="0">
+      </div>
+    </div>
+    <div class="field-row full">
+      <div class="field-group">
+        <label>Autoriza gravacao de audio?</label>
+        <select>
+          <option value="">Selecione...</option>
+          <option>Sim — autoriza gravacao</option>
+          <option>Nao — apenas anotacoes</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO A -->
+  <div class="block-header blue">
+    <span class="block-badge">BLOCO A</span>
+    <div class="block-info">
+      <h3>Situacao Atual</h3>
+      <p>Objetivo: entender o nivel tecnologico e a qualidade dos dados disponiveis para o modelo.</p>
+    </div>
+  </div>
+
+  <!-- P1 -->
+  <div class="q-card">
+    <div class="q-meta">
+      <span class="q-num">Pergunta 1</span>
+      <span class="q-cat">Tecnologia atual</span>
+    </div>
+    <div class="q-text">Voce usa algum sistema para registrar as vendas e o estoque — seja um software, aplicativo ou planilha? Se sim, ele registra automaticamente quando um produto entra e quando sai, ou voce precisa atualizar na mao?</div>
+    <div class="q-hint">Anote o nome do sistema se houver — pesquisar depois se exporta CSV/Excel.</div>
+    <div class="radio-group">
+      <div class="radio-item"><input type="radio" name="p1_tipo" id="p1a"><label for="p1a">Usa software/app dedicado (PDV, sistema de gestao)</label></div>
+      <div class="radio-item"><input type="radio" name="p1_tipo" id="p1b"><label for="p1b">Usa planilha Excel ou Google Sheets</label></div>
+      <div class="radio-item"><input type="radio" name="p1_tipo" id="p1c"><label for="p1c">Controle manual (caderno, memoria)</label></div>
+      <div class="radio-item"><input type="radio" name="p1_tipo" id="p1d"><label for="p1d">Nenhum controle</label></div>
+    </div>
+    <input class="other-input" type="text" placeholder="Nome do sistema (se houver):">
+    <div style="margin-top:10px;">
+      <textarea placeholder="Observacoes adicionais..."></textarea>
+    </div>
+  </div>
+
+  <!-- P2 -->
+  <div class="q-card">
+    <div class="q-meta">
+      <span class="q-num">Pergunta 2</span>
+      <span class="q-cat">Dados disponiveis</span>
+    </div>
+    <div class="q-text">Esse sistema gera algum relatorio de vendas ou estoque? Voce consegue ver quanto vendeu de cada produto por dia ou por semana? Consegue exportar isso para Excel ou planilha?</div>
+    <div class="q-hint">Dado critico: precisamos de vendas por produto por dia. Total mensal nao e suficiente para o modelo.</div>
+    <div class="radio-group">
+      <div class="radio-item"><input type="radio" name="p2" id="p2a"><label for="p2a">Sim — exporta por produto por dia (otimo para o TCC)</label></div>
+      <div class="radio-item"><input type="radio" name="p2" id="p2b"><label for="p2b">Sim — mas so totais semanais ou mensais</label></div>
+      <div class="radio-item"><input type="radio" name="p2" id="p2c"><label for="p2c">Tem relatorio mas nao exporta</label></div>
+      <div class="radio-item"><input type="radio" name="p2" id="p2d"><label for="p2d">Nao tem nenhum relatorio</label></div>
+    </div>
+    <textarea placeholder="Detalhes sobre o relatorio / observacoes..."></textarea>
+  </div>
+
+  <!-- P3 -->
+  <div class="q-card">
+    <div class="q-meta">
+      <span class="q-num">Pergunta 3</span>
+      <span class="q-cat">Processo de compra</span>
+      <span class="q-priority">Prioritaria</span>
+    </div>
+    <div class="q-text">Quando voce decide que precisa comprar mais de um produto, o que te faz tomar essa decisao? Voce olha o estoque, espera acabar, segue uma quantidade fixa, ou e mais pela experiencia mesmo? Tem alguma regra ou e mais no feeling?</div>
+    <div class="q-hint">Se responder "no feeling" — anote a frase exata. Ela vira citacao na introducao do TCC.</div>
+    <div class="checkbox-group">
+      <div class="checkbox-item"><input type="checkbox" id="p3a"><label for="p3a">Olha visualmente o estoque nas prateleiras</label></div>
+      <div class="checkbox-item"><input type="checkbox" id="p3b"><label for="p3b">Espera o produto acabar ou ficar quase no fim</label></div>
+      <div class="checkbox-item"><input type="checkbox" id="p3c"><label for="p3c">Segue uma quantidade fixa de pedido</label></div>
+      <div class="checkbox-item"><input type="checkbox" id="p3d"><label for="p3d">Experiencia / feeling / intuicao</label></div>
+      <div class="checkbox-item"><input type="checkbox" id="p3e"><label for="p3e">O proprio fornecedor sugere o pedido</label></div>
+    </div>
+    <textarea placeholder="Descricao do processo de decisao (cite palavras exatas se possivel)..."></textarea>
+  </div>
+
+  <!-- P4 -->
+  <div class="q-card">
+    <div class="q-meta">
+      <span class="q-num">Pergunta 4</span>
+      <span class="q-cat">Validade e desperdicio (ESG)</span>
+    </div>
+    <div class="q-text">O que voce faz com produtos proximos do vencimento — coloca em promocao, devolve pro fornecedor, descarta? Com que frequencia isso acontece? Voce consegue estimar quanto perde por mes com produtos vencidos ou perto de vencer?</div>
+    <div class="q-hint">Anote o valor estimado mesmo que seja aproximado — qualquer numero ja e util para calcular o impacto ESG.</div>
+    <div class="radio-group">
+      <div class="radio-item"><input type="radio" name="p4_acao" id="p4a"><label for="p4a">Coloca em promocao antes de vencer</label></div>
+      <div class="radio-item"><input type="radio" name="p4_acao" id="p4b"><label for="p4b">Devolve ao fornecedor</label></div>
+      <div class="radio-item"><input type="radio" name="p4_acao" id="p4c"><label for="p4c">Descarta / joga fora</label></div>
+      <div class="radio-item"><input type="radio" name="p4_acao" id="p4d"><label for="p4d">Combinacao das anteriores</label></div>
+      <div class="radio-item"><input type="radio" name="p4_acao" id="p4e"><label for="p4e">Raramente acontece</label></div>
+    </div>
+    <label style="font-size:12px;font-weight:600;color:#5f5e5a;display:block;margin:10px 0 6px;">Perda estimada por mes com vencimento:</label>
+    <div class="money-wrapper">
+      <span class="money-prefix">R$</span>
+      <input class="money-input" type="number" placeholder="0,00" min="0" step="10">
+    </div>
+    <textarea style="margin-top:10px;" placeholder="Quais categorias geram mais desperdicio? Laticínios? Frios? Paes?..."></textarea>
+  </div>
+
+  <!-- P5 -->
+  <div class="q-card">
+    <div class="q-meta">
+      <span class="q-num">Pergunta 5</span>
+      <span class="q-cat">Ruptura de estoque</span>
+      <span class="q-priority">Prioritaria</span>
+    </div>
+    <div class="q-text">Ja aconteceu de um produto acabar antes do fornecedor chegar? Qual produto costuma faltar mais? Quando isso acontece, o cliente vai embora ou espera? Voce sabe estimar quantas vendas perde por mes por causa disso?</div>
+    <div class="q-hint">Liste os produtos mais citados — eles entram como prioridade maxima no modelo.</div>
+    <div class="radio-group">
+      <div class="radio-item"><input type="radio" name="p5_freq" id="p5a"><label for="p5a">Sim — acontece com frequencia (toda semana)</label></div>
+      <div class="radio-item"><input type="radio" name="p5_freq" id="p5b"><label for="p5b">Sim — acontece as vezes (algumas vezes por mes)</label></div>
+      <div class="radio-item"><input type="radio" name="p5_freq" id="p5c"><label for="p5c">Raramente acontece</label></div>
+      <div class="radio-item"><input type="radio" name="p5_freq" id="p5d"><label for="p5d">Nunca acontece</label></div>
+    </div>
+    <input class="other-input" type="text" placeholder="Produtos que mais faltam (separe por virgula):">
+    <label style="font-size:12px;font-weight:600;color:#5f5e5a;display:block;margin:10px 0 6px;">Perda estimada por mes com ruptura:</label>
+    <div class="money-wrapper">
+      <span class="money-prefix">R$</span>
+      <input class="money-input" type="number" placeholder="0,00" min="0" step="10">
+    </div>
+    <textarea style="margin-top:10px;" placeholder="O cliente vai embora ou espera? Observacoes..."></textarea>
+  </div>
+
+  <!-- P6 -->
+  <div class="q-card">
+    <div class="q-meta">
+      <span class="q-num">Pergunta 6</span>
+      <span class="q-cat">Fornecedores e lead time</span>
+    </div>
+    <div class="q-text">Quantos fornecedores voce tem? Cada um tem um prazo de entrega diferente? Tem algum que demora mais e te da mais dor de cabeca? Voce consegue fazer pedido a qualquer momento ou tem dias fixos de entrega?</div>
+    <div class="q-hint">Anote o prazo de cada fornecedor em dias — alimenta o campo lead_time_dias do banco de dados.</div>
+    <label style="font-size:12px;font-weight:600;color:#5f5e5a;display:block;margin:0 0 6px;">Numero de fornecedores:</label>
+    <div class="scale-wrapper" style="margin-bottom:14px;">
+      <span class="scale-label">1</span>
+      <div class="scale-options">
+        <div class="scale-option"><input type="radio" name="p6_forn" id="f1"><label for="f1">1</label></div>
+        <div class="scale-option"><input type="radio" name="p6_forn" id="f2"><label for="f2">2</label></div>
+        <div class="scale-option"><input type="radio" name="p6_forn" id="f3"><label for="f3">3</label></div>
+        <div class="scale-option"><input type="radio" name="p6_forn" id="f4"><label for="f4">4</label></div>
+        <div class="scale-option"><input type="radio" name="p6_forn" id="f5"><label for="f5">5+</label></div>
+      </div>
+      <span class="scale-label">5+</span>
+    </div>
+    <textarea placeholder="Nomes dos fornecedores e prazos de entrega (ex: Distribuidora X — 2 dias, Fornecedor Y — 5 dias)..."></textarea>
+  </div>
+
+  <!-- BLOCO B -->
+  <div class="block-header teal">
+    <span class="block-badge">BLOCO B</span>
+    <div class="block-info">
+      <h3>Dores e Oportunidades</h3>
+      <p>Objetivo: aprofundar nas dores reais e validar o valor do sistema para o entrevistado.</p>
+    </div>
+  </div>
+
+  <!-- P7 -->
+  <div class="q-card">
+    <div class="q-meta">
+      <span class="q-num">Pergunta 7</span>
+      <span class="q-cat">Padrao de demanda</span>
+    </div>
+    <div class="q-text">Tem algum produto que voce nunca consegue acertar a quantidade certa — as vezes sobra demais, as vezes falta? E algum que voce sempre acerta porque o consumo e bem regular?</div>
+    <div class="q-hint">Produtos "dificeis" = fase 1 do modelo. Produtos "faceis" = baseline de comparacao.</div>
+    <input class="other-input" type="text" placeholder="Produtos dificeis de prever (demanda irregular):">
+    <input class="other-input" style="margin-top:8px;" type="text" placeholder="Produtos faceis de prever (consumo regular):">
+    <textarea style="margin-top:8px;" placeholder="Observacoes adicionais..."></textarea>
+  </div>
+
+  <!-- P8 -->
+  <div class="q-card">
+    <div class="q-meta">
+      <span class="q-num">Pergunta 8</span>
+      <span class="q-cat">Sazonalidade</span>
+    </div>
+    <div class="q-text">Tem epocas do ano em que as vendas mudam bastante — tipo fim de mes, Natal, festas juninas, Carnaval? Quais produtos mais sentem essa diferenca? Voce ja se preparou para essas epocas ou ja foi pego de surpresa?</div>
+    <div class="q-hint">Eventos citados entram na tabela CALENDARIO_EVENTO do banco de dados.</div>
+    <div class="checkbox-group">
+      <div class="checkbox-item"><input type="checkbox" id="s1"><label for="s1">Fim de mes / pagamento</label></div>
+      <div class="checkbox-item"><input type="checkbox" id="s2"><label for="s2">Natal e Ano Novo</label></div>
+      <div class="checkbox-item"><input type="checkbox" id="s3"><label for="s3">Carnaval</label></div>
+      <div class="checkbox-item"><input type="checkbox" id="s4"><label for="s4">Festas juninas / Sao Joao</label></div>
+      <div class="checkbox-item"><input type="checkbox" id="s5"><label for="s5">Pascoa</label></div>
+      <div class="checkbox-item"><input type="checkbox" id="s6"><label for="s6">13o salario (dezembro)</label></div>
+      <div class="checkbox-item"><input type="checkbox" id="s7"><label for="s7">Verao (bebidas / sorvetes)</label></div>
+    </div>
+    <textarea placeholder="Quais produtos mais sofrem variacao? Ja foi pego de surpresa alguma vez?..."></textarea>
+  </div>
+
+  <!-- P9 -->
+  <div class="q-card">
+    <div class="q-meta">
+      <span class="q-num">Pergunta 9</span>
+      <span class="q-cat">Tempo gasto com gestao</span>
+    </div>
+    <div class="q-text">Quanto tempo voce gasta por semana cuidando do estoque — conferindo o que tem, decidindo o que pedir, fazendo os pedidos? Isso e voce mesmo que faz ou tem alguem que te ajuda?</div>
+    <div class="q-hint">Qualquer resposta acima de 3 horas por semana ja justifica o sistema com folga.</div>
+    <label style="font-size:12px;font-weight:600;color:#5f5e5a;display:block;margin:0 0 8px;">Horas por semana dedicadas ao controle de estoque:</label>
+    <div class="scale-wrapper" style="margin-bottom:14px;">
+      <span class="scale-label">Pouco</span>
+      <div class="scale-options">
+        <div class="scale-option"><input type="radio" name="p9" id="h1"><label for="h1">1h</label></div>
+        <div class="scale-option"><input type="radio" name="p9" id="h2"><label for="h2">2h</label></div>
+        <div class="scale-option"><input type="radio" name="p9" id="h3"><label for="h3">3h</label></div>
+        <div class="scale-option"><input type="radio" name="p9" id="h4"><label for="h4">5h</label></div>
+        <div class="scale-option"><input type="radio" name="p9" id="h5"><label for="h5">8h+</label></div>
+      </div>
+      <span class="scale-label">Muito</span>
+    </div>
+    <textarea placeholder="Quem faz a gestao de estoque? Como e dividida a tarefa?..."></textarea>
+  </div>
+
+  <!-- P10 -->
+  <div class="q-card">
+    <div class="q-meta">
+      <span class="q-num">Pergunta 10</span>
+      <span class="q-cat">Impacto financeiro total</span>
+      <span class="q-priority">Prioritaria</span>
+    </div>
+    <div class="q-text">Voce consegue estimar quanto perde por mes com problemas de estoque no geral — produtos vencendo, falta de produto, pedido errado para o fornecedor? Ja teve algum mes que isso foi um prejuizo grande?</div>
+    <div class="q-hint">Se nao souber, pergunte: "Voce acha que e mais de R$100? Mais de R$500?" — ajuda a chegar numa estimativa.</div>
+    <label style="font-size:12px;font-weight:600;color:#5f5e5a;display:block;margin:0 0 6px;">Perda total estimada por mes (todos os problemas de estoque):</label>
+    <div class="money-wrapper">
+      <span class="money-prefix">R$</span>
+      <input class="money-input" type="number" placeholder="0,00" min="0" step="50">
+    </div>
+    <textarea style="margin-top:10px;" placeholder="Contexto do prejuizo — quando foi maior? Qual situacao causou?..."></textarea>
+  </div>
+
+  <!-- P11 -->
+  <div class="q-card">
+    <div class="q-meta">
+      <span class="q-num">Pergunta 11</span>
+      <span class="q-cat">Aceitacao do sistema</span>
+    </div>
+    <div class="q-text">Se voce tivesse um sistema que te dissesse toda semana "voce vai precisar de X unidades desse produto nos proximos 15 dias, faca o pedido ate quinta-feira" — isso seria util para voce? O que esse sistema precisaria ter para voce realmente usar no dia a dia?</div>
+    <div class="q-hint">Anote exatamente o que o dono diz que precisaria. Vira requisito do sistema ou trabalho futuro.</div>
+    <div class="radio-group">
+      <div class="radio-item"><input type="radio" name="p11" id="u1"><label for="u1">Sim — usaria com certeza</label></div>
+      <div class="radio-item"><input type="radio" name="p11" id="u2"><label for="u2">Sim — mas dependeria de como funciona</label></div>
+      <div class="radio-item"><input type="radio" name="p11" id="u3"><label for="u3">Talvez — precisaria ver na pratica</label></div>
+      <div class="radio-item"><input type="radio" name="p11" id="u4"><label for="u4">Nao — ja tenho controle suficiente</label></div>
+    </div>
+    <textarea placeholder="O que o sistema precisaria ter para ser util? Quais requisitos citou?..."></textarea>
+  </div>
+
+  <!-- P12 -->
+  <div class="q-card">
+    <div class="q-meta">
+      <span class="q-num">Pergunta 12</span>
+      <span class="q-cat">Produtos criticos</span>
+    </div>
+    <div class="q-text">Tem algum produto que se acabar, o cliente vai embora na hora e pode nao voltar? Qual produto voce jamais pode deixar faltar?</div>
+    <div class="q-hint">Esses produtos recebem flag produto_critico = true no banco de dados e alerta visual diferenciado no dashboard.</div>
+    <input class="other-input" type="text" placeholder="Produtos criticos (jamais podem faltar):">
+    <textarea style="margin-top:8px;" placeholder="Por que esses produtos sao criticos? O cliente reclama? Vai a outro mercado?..."></textarea>
+  </div>
+
+  <!-- BLOCO C -->
+  <div class="block-header gray">
+    <span class="block-badge">BLOCO C</span>
+    <div class="block-info">
+      <h3>Encerramento</h3>
+      <p>Objetivo: capturar a dor mais profunda — frequentemente revela o que as outras perguntas nao capturam.</p>
+    </div>
+  </div>
+
+  <!-- P13 -->
+  <div class="q-card">
+    <div class="q-meta">
+      <span class="q-num">Pergunta 13</span>
+      <span class="q-cat">Pergunta final</span>
+      <span class="q-priority">Prioritaria</span>
+    </div>
+    <div class="q-text">Se voce pudesse resolver um unico problema de estoque hoje — so um — qual seria? O que mais te tira o sono quando o assunto e controlar o que tem e o que precisa comprar?</div>
+    <div class="q-hint">Deixe o entrevistado falar a vontade. Nao interrompa. Esta pode ser a resposta mais valiosa da entrevista inteira.</div>
+    <textarea style="min-height:120px;" placeholder="Resposta livre — anote com as palavras exatas do entrevistado sempre que possivel..."></textarea>
+  </div>
+
+  <!-- OBSERVACOES FINAIS -->
+  <div class="q-card">
+    <div class="q-meta">
+      <span class="q-num">Campo extra</span>
+      <span class="q-cat">Observacoes gerais</span>
+    </div>
+    <div class="q-text">Observacoes gerais da entrevista</div>
+    <div class="q-hint">Contexto do ambiente, postura do entrevistado, informacoes extras nao capturadas pelas perguntas.</div>
+    <textarea style="min-height:100px;" placeholder="Anotacoes livres do entrevistador..."></textarea>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-area">
+    <button class="submit-btn" onclick="window.print()">Imprimir / Salvar como PDF</button>
+    <p class="submit-note">Use Ctrl+P (ou Cmd+P) para imprimir ou salvar em PDF · As respostas ficam salvas enquanto a pagina estiver aberta</p>
+  </div>
+
+</div>
+</body>
+</html>
